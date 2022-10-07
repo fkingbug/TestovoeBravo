@@ -1,26 +1,54 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { lazy, Suspense } from 'react'
 
-function App() {
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import CssBaseline from '@mui/material/CssBaseline'
+import { ThemeProvider } from '@mui/material'
+import { Provider, useSelector } from 'react-redux'
+
+import Mainlayout from './layouts/Mainlayout'
+import AuthPage from './pages/AuthPage/AuthPage'
+import { theme } from './theme/theme'
+import { store } from './redux/store'
+import { selectIsAuth } from './redux/slices/auth'
+
+const OrderPage = lazy(
+  () => import(/* webpackChunkName: 'OrderPage' */ './pages/OrderPage/OrderPage')
+)
+const TablePage = lazy(
+  () => import(/* webpackChunkName: 'FullPizza' */ './pages/TablePage/TablePage')
+)
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<Mainlayout />}>
+              <Route
+                path=''
+                element={
+                  <Suspense fallback={<div>Загрузка...</div>}>
+                    <OrderPage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='table'
+                element={
+                  <Suspense fallback={<div>Загрузка...</div>}>
+                    <TablePage />
+                  </Suspense>
+                }
+              />
+            </Route>
+            <Route path='/auth' element={<AuthPage />} />
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
+    </Provider>
+  )
 }
 
-export default App;
+export default App
