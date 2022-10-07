@@ -4,4 +4,5 @@ export const sideBarStyle = {
 }
 export const mainContentStyle = {
   flex: 1,
+  overflow: 'auto',
 }

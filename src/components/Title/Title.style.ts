@@ -1,3 +1,4 @@
 export const titleStyle = {
-  color: 'red',
+  textAlign: 'center',
+  color: '#221e1e',
 }

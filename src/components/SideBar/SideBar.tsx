@@ -6,6 +6,7 @@ import BackupTableOutlinedIcon from '@mui/icons-material/BackupTableOutlined'
 import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes'
 import LogoutIcon from '@mui/icons-material/Logout'
 
+import { useAppDispatch } from '../../redux/store'
 import { sideBarStyle, orderbarStyle, activeLink } from './SideBar.style'
 import { logout } from '../../redux/slices/auth'
 
@@ -15,6 +16,7 @@ const SideBar = () => {
 
   const onCLickLogout = () => {
     dispatch(logout())
+    window.localStorage.removeItem('token')
   }
 
   return (
@@ -31,7 +33,7 @@ const SideBar = () => {
           </Link>
         </IconButton>
       </Box>
-      <IconButton onCLick={onCLickLogout} aria-label='logOut'>
+      <IconButton onClick={onCLickLogout} aria-label='logOut'>
         <LogoutIcon />
       </IconButton>
     </Box>
